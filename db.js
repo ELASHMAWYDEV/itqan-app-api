@@ -29,36 +29,13 @@ class Database {
 
   collection = (collectionName) => {
     try {
-      return this.db.collection(collectionName);
+      return this.db.collection(collectionName, this.closeConnection);
     } catch (e) {
       console.log(e.message);
     }
   };
 
-  nextIndex = (collectionName) => {
-    //get the last index
-    this.db
-      .collection("counter", () => this.closeConnection)
-      .findOne({ _id: collectionName }, (err, result) => {
-        if (err) throw err;
-        this.index = result.value;
-      });
-
-    //update the index by adding +1
-    this.index += 1;
-    this.db
-      .collection("counter", () => this.closeConnection)
-      .updateOne(
-        { _id: collectionName },
-        { $set: { value: this.index } },
-        (err, result) => {
-          if (err) throw err;
-          return result.value;
-        }
-      );
-
-    return this.index;
-  };
+  
 }
 
 module.exports = new Database();
