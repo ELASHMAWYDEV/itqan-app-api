@@ -80,21 +80,26 @@ const validateUser = (user) => {
   if (!emailValidator.validate(user.email)) errors.push(103);
 
   //check if email exist
-  db.collection("users").find({ email: user.email }, (err, result) => {
+  db.collection("users").findOne({ email: user.email }, (err, result) => {
     if (err) errors.push(1);
     if (result !== null) errors.push(102);
+    console.log(result);
   });
 
   //check if phone number exist with its country code
-  db.collection("users").find({
-    $and: [
-      { phoneNumber: user.phoneNumber },
-      { countryCode: user.countryCode },
-    ],
-  }, (err, result) => {
-    if (err) errors.push(1);
-    if (result !== null) errors.push(105);
-  });
+  db.collection("users").findOne(
+    {
+      $and: [
+        { phoneNumber: user.phoneNumber },
+        { countryCode: user.countryCode },
+      ],
+    },
+    (err, result) => {
+      if (err) errors.push(1);
+      if (result !== null) errors.push(105);
+      // console.log(result);
+    }
+  );
 
   return errors;
 };
