@@ -28,6 +28,10 @@ router.post("/", async (req, res) => {
       password: hashedPassword,
     };
 
+
+    //delete the passwordConfirm propert
+    delete user.passwordConfirm;
+
     //Insert the user to the Database
     db.collection("users").insertOne({ ...user }, (err, result) => {
       if (err) errors.push(1);
