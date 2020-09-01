@@ -12,12 +12,18 @@ const authenticateToken = (req, res, next) => {
   const token = authHeader && authHeader.split(" ")[1];
 
   //set the req.user = null ===> check for req.user in every private route
-  if (!token) req.user = null;
+  if (!token) {
+    req.user = null;
+    return next();
+  }
 
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, user) => {
     if (err) req.user = null;
 
-    req.user = user;
+    let userSearch = await db.collection("users").findOne({ accessToken: token });
+    
+    if (userSearch) req.user = userSearch;
+    else req.user = null;
 
     next();
   });
@@ -35,7 +41,8 @@ router.use("/auth", require('./auth/index'));
 //SMS Router
 router.use("/sms", require('./sms/index'));
 
-
+//USERS Router
+router.use("/users", require('./users/index'));
 
 
 

@@ -6,22 +6,26 @@ const dbName = process.env.DB_NAME || "itqan";
 
 class Database {
   constructor() {
-    mongodb.connect(url, (err, client) => {
-      if (err) {
-        console.log("Connection to Database Server Failed !");
-        this.db = null;
-        return res.json(err);
-      } else {
-        this.db = client.db(dbName);
-        this.client = client;
-      }
-    });
+    try {
+
+      mongodb.connect(url, (err, client) => {
+        if (err) {
+          console.log("Connection to Database Server Failed !");
+          this.db = null;
+          console.log(err);
+        } else {
+          this.db = client.db(dbName);
+          this.client = client;
+        }
+      });
+    } catch (e) {
+      console.log(e.message);
+    }
   }
 
-  closeConnection = async () => {
+  close = () => {
     try {
-      await this.client.close();
-      console.log("connection closed");
+      this.client.close();
     } catch (e) {
       console.log(e.message);
     }
@@ -29,7 +33,7 @@ class Database {
 
   collection = (collectionName) => {
     try {
-      return this.db.collection(collectionName, this.closeConnection);
+      return this.db.collection(collectionName);
     } catch (e) {
       console.log(e.message);
     }

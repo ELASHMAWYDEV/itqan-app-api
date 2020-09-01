@@ -1,6 +1,7 @@
 {
   "0": "Unknown Error",
   "1": "Database Error",
+  "2": "Error while storing the access token",
   "100": "The email address mustn't be empty",
   "101": "The email address is not registered",
   "102": "The email address is already registered",
@@ -16,10 +17,19 @@
   "117": "The phone number mustn't be empty",
   "118": "The country code mustn't be empty",
   "119": "You must accept our terms of services to register",
+  "120": "The gender mustn't be empty",
+  "121": "The date of birth mustn't be empty",
+  "122": "The school mustn't be empty",
+  "123": "The address mustn't be empty",
+  "124": "The country mustn't be empty",
+  "125": "The region mustn't be empty",
   "150": "The twilio sid or auth token or phone number are missing from the environment variables in the API",
+  "151": "You don't have permissions to do that",
+  "152": "Only admins have permissions to do this",
   "201": "Login Successful",
   "202": "You have already logged in",
-  "203": "User Registered Successfully"
+  "203": "User Registered Successfully",
+  "204": "User Updated Successfully"
   
 
 }
