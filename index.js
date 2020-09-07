@@ -13,6 +13,12 @@ app.use(express.static("public"));
 //API Router
 app.use("/api", require('./routes/api/index'));
 
+app.use("/", (req, res) => {
+  app.send("Welcome !");
+});
 
+app.use("/favicon.ico", (req, res) => {
+  app.sendFile("/public/favicon.ico");
+})
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
